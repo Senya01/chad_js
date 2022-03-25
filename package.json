@@ -1,0 +1,23 @@
+{
+  "name": "chad_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "chad_js"
+  },
+  "keywords": [
+    "discord.js",
+    "discord",
+    "bot",
+    "js",
+    "node",
+    "nodejs"
+  ],
+  "author": "Senya01",
+  "license": "ISC"
+}
