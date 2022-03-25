@@ -19,5 +19,8 @@
     "nodejs"
   ],
   "author": "Senya01",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
 }
