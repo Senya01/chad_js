@@ -127,5 +127,58 @@
       },
       "role_id": "860478135882350603"
     }
+  },
+  "emojis": {
+    "ds_mute": {
+      "name": "ds_mute",
+      "id": "957238031713173534"
+    },
+    "ds_deafen": {
+      "name": "ds_deafen",
+      "id": "957238031675453460"
+    },
+    "ds_un_mute": {
+      "name": "ds_un_mute",
+      "id": "957238031990030347"
+    },
+    "ds_un_deafen": {
+      "name": "ds_un_deafen",
+      "id": "957238031297949717"
+    },
+    "ds_server_mute": {
+      "name": "ds_server_mute",
+      "id": "957238031675432980"
+    },
+    "ds_server_deafen": {
+      "name": "ds_server_deafen",
+      "id": "957238031683842099"
+    },
+    "ds_camera": {
+      "name": "ds_camera",
+      "id": "957238031679623268"
+    },
+    "ds_screen": {
+      "name": "ds_screen",
+      "id": "957238032027779122"
+    }
+  },
+  "types": {
+    "full": {
+      "color": "success",
+      "text": "Полный"
+    },
+    "crowded": {
+      "color": "danger",
+      "text": "Переполнен {}"
+    },
+    "search": {
+      "color": "warning",
+      "text": "Поиск {}"
+    }
+  },
+  "colors": {
+    "danger": "#dc3545",
+    "warning": "#ffc107",
+    "success": "#28a745"
   }
 }
