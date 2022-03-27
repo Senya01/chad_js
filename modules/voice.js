@@ -12,16 +12,28 @@ function deleteDBRecord(channelId, messageId) {
         })
 }
 
+function addVoiceTimeRecord(voiceId, userId, type) {
+    const dateTime = Math.floor(Date.now() / 1000)
+    db.dataBase(
+        `INSERT INTO \`voice_time\`(\`voice_id\`, \`user_id\`, \`type\`, \`datetime\`) VALUES ('${voiceId}', '${userId}', '${type}', '${dateTime}');`,
+        () => {
+        })
+}
+
 module.exports = {
     run: (oldState, newState) => {
         let action = ''
 
         if (!oldState.channel && newState.channel) {
             action = 'join'
+            addVoiceTimeRecord(newState.channel.id, newState.member.id, 'join')
         } else if (oldState.channel && !newState.channel) {
             action = 'leave'
+            addVoiceTimeRecord(oldState.channel.id, oldState.member.id, 'leave')
         } else if (oldState.channel && newState.channel && oldState.channel !== newState.channel) {
             action = 'move'
+            addVoiceTimeRecord(oldState.channel.id, oldState.member.id, 'leave')
+            addVoiceTimeRecord(newState.channel.id, newState.member.id, 'join')
         } else {
             action = 'other'
         }
