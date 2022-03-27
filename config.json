@@ -179,7 +179,8 @@
   "colors": {
     "danger": "#dc3545",
     "warning": "#ffc107",
-    "success": "#28a745"
+    "success": "#28a745",
+    "primary": "#007bff"
   },
   "database": {
     "host": "localhost",
