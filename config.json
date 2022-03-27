@@ -180,5 +180,11 @@
     "danger": "#dc3545",
     "warning": "#ffc107",
     "success": "#28a745"
+  },
+  "database": {
+    "host": "46.188.59.18",
+    "user": "chad_js",
+    "password": "v-fWN6DkgSI[[Kf4",
+    "database": "chad_js"
   }
 }
