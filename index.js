@@ -8,6 +8,7 @@ global.bot = new Discord.Client({
 global.config = require('./config.json')
 
 bot.login(config.token)
+process.on('unhandledRejection', err => { console.log(err) })
 
 bot.on('ready', () => {
     console.log(`Login as ${bot.user.tag} (${bot.user.id})...`)

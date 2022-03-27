@@ -46,5 +46,41 @@ module.exports = {
         interaction.update({
             components: interaction.message.components,
         })
+    },
+    getTeamInfo: (voice) => {
+        let users = []
+        let type = ''
+        let subData = ''
+        const members = voice.members
+        const membersCount = members.size
+        const userLimit = voice.userLimit
+        if (membersCount === userLimit) {
+            type = 'full'
+        } else if (membersCount < userLimit) {
+            type = 'search'
+            subData = `+${userLimit - membersCount}`
+        } else if (membersCount > userLimit) {
+            type = 'crowded'
+            subData = `-${membersCount - userLimit}`
+        }
+
+        let text = config.types[type].text.replace('{}', subData)
+        members.map((member) => {
+            users.push(`<@!${member.id}>`)
+        })
+
+        if (type === 'search') {
+            for (let i = 0; i < userLimit - membersCount; i++) {
+                users.push('[Пусто]')
+            }
+        }
+
+        users.push(`\n<#${voice.id}>`)
+
+        return {
+            title: `${voice.name} ${text}`,
+            description: users.join('\n'),
+            color: config.colors[config.types[type].color]
+        }
     }
 }

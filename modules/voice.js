@@ -1,5 +1,15 @@
+const db = require('./db')
+const main = require("./main");
+
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function deleteDBRecord(channelId, messageId) {
+    db.dataBase(
+        `UPDATE \`teams\` SET \`deleted\`=1 WHERE \`channel_id\` = '${channelId}' AND \`message_id\` = '${messageId}';`,
+        () => {
+        })
 }
 
 module.exports = {
@@ -16,28 +26,79 @@ module.exports = {
             action = 'other'
         }
 
+        // зашёл в войс или перешёл из другого
         if (action === 'join' || action === 'move') {
-            if (newState.channel.name.indexOf('Создать') < 0) return
-
-            const channel = newState.channel
-            const category = channel.parent
-            if (!category) return
-            const rand = getRandomArbitrary(100, 999)
-            category.createChannel(`${category.name} [${rand}]`, {
-                type: 'GUILD_VOICE',
-                bitrate: channel.bitrate,
-                userLimit: channel.userLimit
-            }).then(r => {
-                newState.setChannel(r)
-            })
+            if (newState.channel.name.indexOf('Создать') >= 0) {
+                const channel = newState.channel
+                const category = channel.parent
+                if (category) {
+                    const rand = getRandomArbitrary(100, 999)
+                    category.createChannel(`${category.name} [${rand}]`, {
+                        type: 'GUILD_VOICE',
+                        bitrate: channel.bitrate,
+                        userLimit: channel.userLimit
+                    }).then(r => {
+                        newState.setChannel(r)
+                    })
+                }
+            }
         }
 
+        // обновить информацию
+        if (action !== 'other') {
+            let state
+            if (oldState.channel) state = oldState
+            if (newState.channel) state = newState
+
+            const channel = state.channel
+
+            if (channel.members.size !== 0) {
+                db.dataBase(
+                    `SELECT \`channel_id\`, \`message_id\` FROM \`teams\` WHERE \`voice_id\` = \'${channel.id}\' AND \`deleted\` = 0;`,
+                    (results) => {
+                        if (results) {
+                            results.forEach(element => {
+                                oldState.guild.channels.fetch(element.channel_id).then(channel => {
+                                    channel.messages.fetch(element.message_id).then(message => {
+                                        message.edit({
+                                            embeds: [main.getTeamInfo(state.channel)]
+                                        })
+                                    })
+                                })
+                            })
+                        }
+                    })
+            }
+        }
+
+        // покинул или перешёл (удалить канал)
         if (action === 'leave' || action === 'move') {
             const channel = oldState.channel
-            if (channel.members.size !== 0) return
-            if (oldState.channel.name.indexOf('Создать') >= 0) return
-
-            channel.delete()
+            if (channel.members.size === 0) {
+                if (channel.name.indexOf('Создать') < 0) {
+                    db.dataBase(
+                        `SELECT \`channel_id\`, \`message_id\` FROM \`teams\` WHERE \`voice_id\` = \'${channel.id}\' AND \`deleted\` = 0;`,
+                        (results) => {
+                            if (results) {
+                                results.forEach(element => {
+                                    deleteDBRecord(element.channel_id, element.message_id)
+                                    oldState.guild.channels.fetch(element.channel_id).then(channel => {
+                                        channel.messages.fetch(element.message_id).then(message => {
+                                            message.edit({
+                                                embeds: [{
+                                                    title: `${oldState.channel.name}`,
+                                                    description: 'Поиск завершён!',
+                                                    color: config.colors.danger
+                                                }]
+                                            })
+                                        })
+                                    })
+                                })
+                            }
+                        })
+                    channel.delete()
+                }
+            }
         }
 
         /*

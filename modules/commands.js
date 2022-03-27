@@ -7,9 +7,9 @@ module.exports = {
 
         interaction.reply({
             embeds: [{
-                title: result.message,
+                title: result.title,
                 color: config.colors.danger,
-                description: result.message
+                description: result.description
             }],
             ephemeral: true
         })
