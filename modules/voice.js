@@ -46,29 +46,31 @@ module.exports = {
 
         // обновить информацию
         if (action !== 'other') {
-            let state
-            if (oldState.channel) state = oldState
-            if (newState.channel) state = newState
+            let states = []
+            if (oldState.channel) states.push(oldState)
+            if (newState.channel) states.push(newState)
 
-            const channel = state.channel
+            states.forEach(state => {
+                const channel = state.channel
 
-            if (channel.members.size !== 0) {
-                db.dataBase(
-                    `SELECT \`channel_id\`, \`message_id\` FROM \`teams\` WHERE \`voice_id\` = \'${channel.id}\' AND \`deleted\` = 0;`,
-                    (results) => {
-                        if (results) {
-                            results.forEach(element => {
-                                oldState.guild.channels.fetch(element.channel_id).then(channel => {
-                                    channel.messages.fetch(element.message_id).then(message => {
-                                        message.edit({
-                                            embeds: [main.getTeamInfo(state.channel)]
+                if (channel.members.size !== 0) {
+                    db.dataBase(
+                        `SELECT \`channel_id\`, \`message_id\` FROM \`teams\` WHERE \`voice_id\` = \'${channel.id}\' AND \`deleted\` = 0;`,
+                        (results) => {
+                            if (results) {
+                                results.forEach(element => {
+                                    oldState.guild.channels.fetch(element.channel_id).then(channel => {
+                                        channel.messages.fetch(element.message_id).then(message => {
+                                            message.edit({
+                                                embeds: [main.getTeamInfo(state.channel)]
+                                            })
                                         })
                                     })
                                 })
-                            })
-                        }
-                    })
-            }
+                            }
+                        })
+                }
+            })
         }
 
         // покинул или перешёл (удалить канал)
