@@ -6,7 +6,9 @@ module.exports = {
             if (message.author.id !== '357078249978855425') return
             message.channel.send({
                 embeds: [{
-                    'title': 'Получить роли'
+                    title: 'Получить роли',
+                    description: 'Нажми на кнопку и выбери необходимые роли',
+                    color: config.colors.primary
                 }],
                 components: [{
                     type: 'ACTION_ROW', components: [{
