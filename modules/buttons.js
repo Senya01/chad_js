@@ -7,7 +7,8 @@ module.exports = {
 
             return interaction.reply({
                 embeds: [{
-                    title: 'Выбери роли'
+                    title: 'Выбери роли',
+                    color: config.colors.primary
                 }],
                 components: components,
                 ephemeral: true
