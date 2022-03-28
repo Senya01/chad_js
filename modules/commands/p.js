@@ -11,7 +11,7 @@ module.exports = {
         if (!voice) return {
             type: 'error',
             title: 'Ошибка!',
-            description: 'Ты должен находиться в канале, для использования этой команды'
+            description: 'Ты должен находиться в голосовом канале, для использования этой команды'
         }
 
         if (!voice.userLimit) return {
