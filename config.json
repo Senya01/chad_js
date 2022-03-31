@@ -187,5 +187,9 @@
     "user": "user",
     "password": "password",
     "database": "db"
+  },
+  "api": {
+    "host": "127.0.0.1",
+    "port": "8228"
   }
 }
