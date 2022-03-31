@@ -44,6 +44,7 @@ module.exports = {
 
                 const info = [
                     `Твоё место: ${formatPlace(json.place)}`,
+                    `Твоё время: ${secondsToDhms(json.time)}`,
                     `Начало статистики: <t:${json.first_timestamp}:R>`,
                     `Статистика на: <t:${Math.floor(Date.now() / 1000)}:R>`
                 ]
