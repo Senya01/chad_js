@@ -48,11 +48,18 @@ module.exports = {
                     `Начало статистики: <t:${json.first_timestamp}:R>`,
                     `Статистика на: <t:${Math.floor(Date.now() / 1000)}:R>`
                 ]
-                interaction.reply({
+
+                const avatar = interaction.member.user.avatarURL() ? interaction.member.user.avatarURL() : interaction.member.user.defaultAvatarURL
+
+                    interaction.reply({
                     embeds: [{
                         title: 'Голосовой онлайн ТОП-10:',
                         description: `${info.join('\n')}\n\n${description.join('\n')}`,
-                        color: config.colors.primary
+                        color: config.colors.primary,
+                        author: {
+                            name: interaction.member.user.tag,
+                            iconURL: avatar
+                        }
                     }]
                 })
             })
