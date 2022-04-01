@@ -40,7 +40,7 @@ module.exports = {
 
         // зашёл в войс или перешёл из другого
         if (action === 'join' || action === 'move') {
-            if (newState.channel.name.indexOf('Создать') >= 0) {
+            if (newState.channel.name ==='Создать') {
                 const channel = newState.channel
                 const category = channel.parent
                 if (category) {
@@ -89,7 +89,7 @@ module.exports = {
         if (action === 'leave' || action === 'move') {
             const channel = oldState.channel
             if (channel.members.size === 0) {
-                if (channel.name.indexOf('Создать') < 0) {
+                if (channel.name.indexOf('Создать') < 0 && channel.id !== config.channels.afk) {
                     db.dataBase(
                         `SELECT \`channel_id\`, \`message_id\` FROM \`teams\` WHERE \`voice_id\` = \'${channel.id}\' AND \`deleted\` = 0;`,
                         (results) => {

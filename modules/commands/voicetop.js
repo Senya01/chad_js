@@ -8,11 +8,11 @@ function secondsToDhms(seconds) {
     const m = Math.floor(seconds % 3600 / 60);
     const s = Math.floor(seconds % 60);
 
-    const dDisplay = d > 0 ? d + (d === 1 ? " день, " : " дней, ") : "";
-    const hDisplay = h > 0 ? h + (h === 1 ? " час, " : " часов, ") : "";
-    const mDisplay = m > 0 ? m + (m === 1 ? " минута, " : " минут, ") : "";
-    const sDisplay = s > 0 ? s + (s === 1 ? " секунда" : " секунд") : "";
-    return dDisplay + hDisplay + mDisplay + sDisplay;
+    const dDisplay = d > 0 ? d + " д, " : ""
+    const hDisplay = h > 0 ? h + " ч, " : ""
+    const mDisplay = m > 0 ? m + " м, " : ""
+    const sDisplay = s > 0 ? s + " с" : ""
+    return dDisplay + hDisplay + mDisplay + sDisplay
 }
 
 function formatPlace(place) {
